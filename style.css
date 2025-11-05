@@ -1,0 +1,86 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: var(--tg-theme-bg-color, #ffffff);
+    color: var(--tg-theme-text-color, #000000);
+}
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: var(--tg-theme-text-color, #000000);
+}
+
+.search-section {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+}
+
+.search-section input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.search-section button, .filters button {
+    padding: 10px 15px;
+    background: var(--tg-theme-button-color, #2481cc);
+    color: var(--tg-theme-button-text-color, #ffffff);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.filters {
+    margin: 15px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filters select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.breed-card {
+    background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border-left: 4px solid #2481cc;
+}
+
+.breed-name {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.breed-info {
+    color: var(--tg-theme-hint-color, #666666);
+    font-size: 14px;
+    margin: 3px 0;
+}
+
+.price {
+    color: var(--tg-theme-button-color, #2481cc);
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+.no-results {
+    text-align: center;
+    color: var(--tg-theme-hint-color, #666666);
+    margin-top: 30px;
+}
