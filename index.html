@@ -3,31 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Поиск пород собак</title>
+    <title>Кулинарные рецепты</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>🐕 Поиск пород собак</h1>
+        <h1>👨‍🍳 Кулинарные рецепты</h1>
         
         <div class="search-section">
-            <input type="text" id="searchInput" placeholder="Введите название породы...">
-            <button onclick="searchBreeds()">🔍 Поиск</button>
+            <input type="text" id="searchInput" placeholder="Введите ингредиент...">
+            <button onclick="searchRecipes()">🔍 Поиск</button>
         </div>
 
         <div class="filters">
-            <select id="sizeFilter">
-                <option value="">Все размеры</option>
-                <option value="small">Маленькие</option>
-                <option value="medium">Средние</option>
-                <option value="large">Крупные</option>
+            <select id="categoryFilter">
+                <option value="">Все категории</option>
+                <option value="breakfast">🍳 Завтраки</option>
+                <option value="lunch">🍲 Обеды</option>
+                <option value="dinner">🍝 Ужины</option>
             </select>
             
-            <select id="priceFilter">
-                <option value="">Любая цена</option>
-                <option value="budget">До 30,000 руб.</option>
-                <option value="medium">30,000 - 50,000 руб.</option>
-                <option value="premium">От 50,000 руб.</option>
+            <select id="timeFilter">
+                <option value="">Любое время</option>
+                <option value="fast">⚡ До 20 мин</option>
+                <option value="medium">🕒 20-40 мин</option>
+                <option value="long">🍳 Более 40 мин</option>
+            </select>
+            
+            <select id="difficultyFilter">
+                <option value="">Любая сложность</option>
+                <option value="легко">👶 Легко</option>
+                <option value="средне">👨‍🍳 Средне</option>
+                <option value="сложно">🧑‍🍳 Сложно</option>
             </select>
             
             <button onclick="applyFilters()">Применить фильтры</button>
