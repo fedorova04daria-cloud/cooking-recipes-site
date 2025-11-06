@@ -1,59 +1,81 @@
-let tg = window.Telegram.WebApp;
+const tg = window.Telegram.WebApp;
 tg.expand();
 
 // Данные из БД (в реальном проекте это бы приходило с сервера)
-const breedsData = [
-    {id: 1, name: "Лабрадор-ретривер", size: "large", character: "Дружелюбный, покладистый, активный", weight: 35, price: 40000},
-    {id: 2, name: "Немецкая овчарка", size: "large", character: "Умная, преданная, уверенная", weight: 35, price: 45000},
-    {id: 3, name: "Бигль", size: "medium", character: "Весёлый, общительный, любопытный", weight: 12, price: 35000},
-    {id: 4, name: "Мопс", size: "small", character: "Спокойный, ласковый, общительный", weight: 8, price: 40000},
-    {id: 5, name: "Чихуахуа", size: "small", character: "Храбрый, преданный, бдительный", weight: 3, price: 25000},
-    {id: 6, name: "Сибирский хаски", size: "large", character: "Дружелюбный, выносливый, независимый", weight: 25, price: 35000},
-    {id: 7, name: "Золотистый ретривер", size: "large", character: "Добрый, терпеливый, игривый", weight: 32, price: 45000},
-    {id: 8, name: "Французский бульдог", size: "small", character: "Спокойный, умный, преданный", weight: 12, price: 50000}
+const recipesData = [
+    {id: 1, name: "Овсяная каша с ягодами", category: "breakfast", time: 15, calories: 250, difficulty: "легко", ingredients: "овсяные хлопья, молоко, ягоды, мед", weight: 300},
+    {id: 2, name: "Яичница с овощами", category: "breakfast", time: 10, calories: 280, difficulty: "легко", ingredients: "яйца, помидоры, перец, лук", weight: 200},
+    {id: 3, name: "Сырники", category: "breakfast", time: 25, calories: 320, difficulty: "средне", ingredients: "творог, яйца, мука, сахар", weight: 180},
+    {id: 4, name: "Куриный суп", category: "lunch", time: 40, calories: 180, difficulty: "легко", ingredients: "курица, картофель, морковь, лук", weight: 350},
+    {id: 5, name: "Паста Карбонара", category: "lunch", time: 20, calories: 450, difficulty: "средне", ingredients: "паста, бекон, яйца, сыр", weight: 300},
+    {id: 6, name: "Греческий салат", category: "lunch", time: 15, calories: 200, difficulty: "легко", ingredients: "помидоры, огурцы, сыр фета, оливки", weight: 250},
+    {id: 7, name: "Лосось с овощами", category: "dinner", time: 30, calories: 350, difficulty: "средне", ingredients: "лосось, брокколи, морковь, лимон", weight: 280},
+    {id: 8, name: "Курица-гриль", category: "dinner", time: 45, calories: 320, difficulty: "сложно", ingredients: "курица, специи, чеснок, розмарин", weight: 250},
+    {id: 9, name: "Омлет с сыром", category: "breakfast", time: 12, calories: 290, difficulty: "легко", ingredients: "яйца, сыр, молоко, зелень", weight: 220},
+    {id: 10, name: "Плов", category: "lunch", time: 60, calories: 480, difficulty: "сложно", ingredients: "рис, мясо, морковь, лук, специи", weight: 350}
 ];
 
-function searchBreeds() {
+function searchRecipes() {
     const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-    const sizeFilter = document.getElementById('sizeFilter').value;
-    const priceFilter = document.getElementById('priceFilter').value;
+    const categoryFilter = document.getElementById('categoryFilter').value;
+    const timeFilter = document.getElementById('timeFilter').value;
+    const difficultyFilter = document.getElementById('difficultyFilter').value;
     
-    let filteredBreeds = breedsData.filter(breed => {
-        const matchesSearch = breed.name.toLowerCase().includes(searchTerm);
-        const matchesSize = !sizeFilter || breed.size === sizeFilter;
+    let filteredRecipes = recipesData.filter(recipe => {
+        const matchesSearch = recipe.name.toLowerCase().includes(searchTerm) || 
+                            recipe.ingredients.toLowerCase().includes(searchTerm);
+        const matchesCategory = !categoryFilter || recipe.category === categoryFilter;
+        const matchesDifficulty = !difficultyFilter || recipe.difficulty === difficultyFilter;
         
-        let matchesPrice = true;
-        if (priceFilter === 'budget') matchesPrice = breed.price <= 30000;
-        else if (priceFilter === 'medium') matchesPrice = breed.price > 30000 && breed.price <= 50000;
-        else if (priceFilter === 'premium') matchesPrice = breed.price > 50000;
+        let matchesTime = true;
+        if (timeFilter === 'fast') matchesTime = recipe.time <= 20;
+        else if (timeFilter === 'medium') matchesTime = recipe.time > 20 && recipe.time <= 40;
+        else if (timeFilter === 'long') matchesTime = recipe.time > 40;
         
-        return matchesSearch && matchesSize && matchesPrice;
+        return matchesSearch && matchesCategory && matchesTime && matchesDifficulty;
     });
     
-    displayResults(filteredBreeds);
+    displayResults(filteredRecipes);
 }
 
 function applyFilters() {
-    searchBreeds();
+    searchRecipes();
 }
 
-function displayResults(breeds) {
+function displayResults(recipes) {
     const resultsDiv = document.getElementById('results');
     
-    if (breeds.length === 0) {
-        resultsDiv.innerHTML = '<div class="no-results">🐾 Породы не найдены</div>';
+    if (recipes.length === 0) {
+        resultsDiv.innerHTML = '<div class="no-results">🍳 Рецепты не найдены</div>';
         return;
     }
     
-    resultsDiv.innerHTML = breeds.map(breed => `
-        <div class="breed-card">
-            <div class="breed-name">${breed.name}</div>
-            <div class="breed-info">Характер: ${breed.character}</div>
-            <div class="breed-info">Вес: ${breed.weight} кг</div>
-            <div class="price">💰 От ${breed.price.toLocaleString()} руб.</div>
+    resultsDiv.innerHTML = recipes.map(recipe => `
+        <div class="recipe-card">
+            <div class="recipe-name">
+                ${recipe.name}
+                <span class="category-badge">
+                    ${recipe.category === 'breakfast' ? '🍳' : recipe.category === 'lunch' ? '🍲' : '🍝'}
+                </span>
+            </div>
+            <div class="recipe-info">🛒 ${recipe.ingredients}</div>
+            <div class="recipe-meta">
+                <span class="time">⏱ ${recipe.time} мин</span>
+                <span class="calories">🔥 ${recipe.calories} ккал</span>
+                <span class="difficulty">${getDifficultyEmoji(recipe.difficulty)} ${recipe.difficulty}</span>
+            </div>
         </div>
     `).join('');
 }
 
-// Показываем все породы при загрузке
-displayResults(breedsData);
+function getDifficultyEmoji(difficulty) {
+    switch(difficulty) {
+        case 'легко': return '👶';
+        case 'средне': return '👨‍🍳';
+        case 'сложно': return '🧑‍🍳';
+        default: return '👨‍🍳';
+    }
+}
+
+// Показываем все рецепты при загрузке
+displayResults(recipesData);
